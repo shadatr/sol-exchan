@@ -8,6 +8,7 @@ edition = "2021"
 crate-type = ["cdylib", "lib"]
 name = "sol_exchan"
 
+
 [features]
 default = []
 cpi = ["no-entrypoint"]
@@ -18,3 +19,12 @@ idl-build = ["anchor-lang/idl-build"]
 
 [dependencies]
 anchor-lang = "0.30.0"
+# spl-token = "3.0.0"
+serde_json = "1.0"
+# reqwest = { version = "0.11", features = ["json"] }
+solana-client = "1.17.0"
+solana-sdk = "1.17.0"  
+anyhow = { version = "1.0" }
+borsh = "0.9.0"
+
+# tokio = { version = "1", features = ["full"] }
