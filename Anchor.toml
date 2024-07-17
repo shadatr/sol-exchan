@@ -1,17 +1,18 @@
 [toolchain]
+anchor_version = "0.30.1"
 
 [features]
 resolution = true
-skip-lint = false
+skip-lint = true
 
-[programs.localnet]
-sol_exchan = "5umccz9MSnMxV2UDbQWEoxarCk7UFaipFkcgzW5ggKs2"
+[programs.devnet]
+sol_exchan = "3ZyRNToaabrVgjLU9Ti8dzgk16Q7x2nMwJshLkXF2161"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "Devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
