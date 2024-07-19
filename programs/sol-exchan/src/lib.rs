@@ -1,13 +1,14 @@
 pub mod ixs;
 pub mod state;
 pub mod consts;
+pub mod errors;
 use anchor_lang::program;
 use anchor_lang::prelude::*;
 use consts::GLOBAL_STATE_SEED;
 use ixs::*;
 use state::GlobalState;
 
-declare_id!("8gm6UpJoDAawsGYrtGXhatokbFQDVZeBkUP1j8egxKTp");
+declare_id!("E1FaR1KorE53kLiPG1SRhiv6W9ox1mSLkASki3LuBiGK");
 
 #[program]
 pub mod sol_exchan {
@@ -25,6 +26,10 @@ pub mod sol_exchan {
 
     pub fn create_token(ctx: Context<CreateToken>, name: String, symbol: String, uri: String) -> Result<()> {
         handle_create_token(ctx, name, symbol, uri)
+    }
+
+    pub fn buy(ctx: Context<Buy>, tokens_to_buy: u64) -> Result<()> {
+        handle_buy(ctx, tokens_to_buy)
     }
 }
 

@@ -8,15 +8,11 @@ use anchor_spl::{
     },
     token::{mint_to, set_authority, Mint, MintTo, SetAuthority, Token, TokenAccount},
 };
-use rust_decimal::{
-    prelude::{FromPrimitive, ToPrimitive},
-    Decimal,
-};
 
-pub const BONDING_CURVE_SEED: &[u8] = b"bonding_curve";
 
-pub const TOKEN_SUPPLY: u64 = 10_000_000_000;
-pub const TOKEN_DECIMALS: u32 = 6;
+use crate::consts::{BONDING_CURVE_SEED, TOKEN_DECIMALS, TOKEN_SUPPLY};
+use crate::state::BondingCurve;
+
 
 pub fn handle_create_token(
     ctx: Context<CreateToken>,
@@ -136,55 +132,6 @@ pub struct CreateToken<'info> {
     pub rent: Sysvar<'info, Rent>,
 }
 
-
-#[account]
-pub struct BondingCurve {
-    pub token_reserves: u64,
-    pub sol_reserves: u64,
-    pub start: u64,
-    /// marked as true when the seeding funds are withdrawn
-    pub complete: bool,
-}
-
-impl BondingCurve {
-    pub fn lockup_period_over(&self, lockup_duration: u64) -> Result<bool> {
-        let ended = self.start + lockup_duration < (Clock::get()?.unix_timestamp as u64);
-        Ok(ended)
-    }
-}
-
-impl BondingCurve {
-    // Linear bonding curve constants
-    const INITIAL_PRICE: Decimal = Decimal::from_parts(46875, 0, 0, false, 19); // 0.0000000046875
-    const FINAL_PRICE: Decimal = Decimal::from_parts(140625, 0, 0, false, 19); // 0.0000000140625
-    const TOTAL_TOKENS: u64 = 8_000_000_000 * 1_000_000; // Total subunits
-
-    // Convert SOL to lamports (1 SOL = 1e9 lamports)
-    fn sol_to_lamports(sol: Decimal) -> u64 {
-        (sol * Decimal::new(1_000_000_000, 0)).to_u64().unwrap()
-    }
-
-    // Calculate the price of the token at a given reserve level
-    fn price_at_reserve(&self, token_reserves: u64) -> Decimal {
-        let progress = Decimal::from_u64(token_reserves).unwrap()
-            / Decimal::from_u64(Self::TOTAL_TOKENS).unwrap();
-        let progress = Decimal::new(1, 0) - progress;
-        Self::INITIAL_PRICE + (Self::FINAL_PRICE - Self::INITIAL_PRICE) * progress
-    }
-
-    // Calculate the total cost in lamports for a given number of tokens (in subunits)
-    pub fn calculate_cost(&self, tokens: u64) -> u64 {
-        let initial_price = self.price_at_reserve(self.token_reserves);
-        let final_price = self.price_at_reserve(self.token_reserves - tokens);
-
-        // Average price over the linear bonding curve
-        let average_price = (initial_price + final_price) / Decimal::new(2, 0);
-        // Calculate the total cost in SOL
-        let total_cost_sol = average_price * Decimal::from_u64(tokens).unwrap();
-        println!("total cost sol {}", total_cost_sol);
-        Self::sol_to_lamports(total_cost_sol)
-    }
-}
 
 #[event]
 pub struct NewToken {

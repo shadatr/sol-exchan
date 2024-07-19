@@ -92,7 +92,6 @@ impl BondingCurve {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use rust_decimal::prelude::*;
 
     #[test]
     fn test_price_at_reserve_initial() {
