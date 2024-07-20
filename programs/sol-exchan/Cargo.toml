@@ -19,6 +19,12 @@ idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
 
 
 [dependencies]
-anchor-lang = { version = "0.30.1", features = ["init-if-needed"] }
-anchor-spl = { version = "0.30.1", features = ["default", "mpl-token-metadata", "metadata", "dex"] }
+anchor-lang = { version = "0.29.0", features = ["init-if-needed"] }
+anchor-spl = { version = "0.29.0", features = ["default", "mpl-token-metadata", "metadata", "dex"] }
 rust_decimal = "1.35.0"
+raydium-cp-swap = { git = "https://github.com/raydium-io/raydium-cp-swap", features = [
+    "no-entrypoint",
+    "cpi",
+] }
+solana-program ={ version = "1.16"}
+spl-memo = "4.0.0"

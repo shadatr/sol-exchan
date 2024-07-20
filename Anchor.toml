@@ -6,7 +6,7 @@ resolution = true
 skip-lint = true
 
 [programs.devnet]
-sol_exchan = "E1FaR1KorE53kLiPG1SRhiv6W9ox1mSLkASki3LuBiGK"
+sol_exchan = "FGMwuGPcAEphvUvFZyzBmjg6wTnQeTg2Xn79Xx2fgzna"
 
 [registry]
 url = "https://api.apr.dev"

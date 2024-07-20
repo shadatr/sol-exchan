@@ -124,7 +124,6 @@ pub struct CreateToken<'info> {
     )]
     /// CHECK: The metadata account for the token, checked through the Metaplex program CPI
     pub metadata_account: UncheckedAccount<'info>,
-
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub token_metadata_program: Program<'info, Metadata>,
     pub token_program: Program<'info, Token>,
