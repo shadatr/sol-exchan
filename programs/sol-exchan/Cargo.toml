@@ -28,3 +28,4 @@ raydium-cp-swap = { git = "https://github.com/raydium-io/raydium-cp-swap", featu
 ] }
 solana-program ={ version = "1.16"}
 spl-memo = "4.0.0"
+bytemuck = "1.7"
