@@ -1,12 +1,12 @@
 [toolchain]
-anchor_version = "0.29.0"
+anchor_version = "0.30.1"
 
 [features]
 resolution = true
 skip-lint = true
 
 [programs.devnet]
-sol_exchan = "AKHSTGMauhTHZWTbshqQefVFUBJDG3hqMtqtErjfMyNz"
+sol_exchan = "EEVAMNYKyGWEMYRHdoh3d1k4p5wdYCjWjmXVT783AZKH"
 
 [registry]
 url = "https://api.apr.dev"

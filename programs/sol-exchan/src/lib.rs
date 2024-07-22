@@ -7,7 +7,7 @@ use consts::GLOBAL_STATE_SEED;
 use ixs::*;
 use state::GlobalState;
 
-declare_id!("AKHSTGMauhTHZWTbshqQefVFUBJDG3hqMtqtErjfMyNz");
+declare_id!("EEVAMNYKyGWEMYRHdoh3d1k4p5wdYCjWjmXVT783AZKH");
 
 #[program]
 pub mod sol_exchan {
@@ -41,25 +41,6 @@ pub mod sol_exchan {
         handle_sell(ctx, tokens_to_sell)
     }
 
-    pub fn swap_input(ctx: Context<ProxySwapBaseInput>, amount_in: u64, minimum_amount_out: u64) -> Result<()> {
-        proxy_swap_base_input(ctx, amount_in, minimum_amount_out)
-    }
-
-    pub fn swap_output(ctx: Context<ProxySwapBaseOutput>, amount_out: u64, maximum_amount_in: u64) -> Result<()> {
-        proxy_swap_base_output(ctx, amount_out, maximum_amount_in)
-    }
-
-    pub fn withdraw(ctx: Context<ProxyWithdraw>, lp_token_amount: u64, minimum_token_0_amount: u64, minimum_token_1_amount: u64) -> Result<()> {
-        proxy_withdraw(ctx, lp_token_amount, minimum_token_0_amount, minimum_token_1_amount)
-    }
-
-    pub fn deposit(ctx: Context<ProxyDeposit>, lp_token_amount: u64, maximum_token_0_amount: u64, maximum_token_1_amount: u64) -> Result<()> {
-        proxy_deposit(ctx, lp_token_amount, maximum_token_0_amount, maximum_token_1_amount)
-    }
-
-    pub fn initialize_rad(ctx: Context<ProxyInitialize>,init_amount_0: u64, init_amount_1: u64, open_time: u64) -> Result<()> {
-        proxy_initialize(ctx, init_amount_0, init_amount_1, open_time)
-    }
     
 }
 
