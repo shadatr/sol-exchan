@@ -24,7 +24,7 @@ module.exports = {
         secondary: "#FFFFFF",
         darkGray:"#121212",
         lightGray:"#333232",
-        lightPurple2:"#AF8FCF"
+        pink:"#FF78C9"
 
       },
       fontSize: {

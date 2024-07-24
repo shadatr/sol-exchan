@@ -1,7 +1,7 @@
+import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,24 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`bg-primary  text-secondary dark ${inter.className}`}>
-        <div className="flex items-center gap-3 p-5">
-          <Image
-            src={"/logo.png"}
-            alt={""}
-            width={35}
-            height={35}
-            className="w-[35px] h-[35px]"
-          />
-          <Image
-            src={"/SOLCHAN.png"}
-            alt={""}
-            width={100}
-            height={100}
-            className="w-[120px]"
-          />
-        </div>
-
+      <body className={`bg-primary text-secondary dark ${inter.className}`}>
         {children}
       </body>
     </html>
