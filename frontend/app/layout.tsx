@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import WalletAndSessionProvider from "@/components/walletProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,10 +16,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={`bg-primary text-secondary dark ${inter.className}`}>
-        {children}
+      <WalletAndSessionProvider>{children}</WalletAndSessionProvider>
       </body>
     </html>
   );
