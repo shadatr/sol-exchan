@@ -5,10 +5,10 @@ import { Connection, PublicKey } from "@solana/web3.js";
 
 // Constants
 const PROGRAM_ID = new PublicKey(
-  "HWy1jotHpo6UqeQxx49dpYYdQB8wj9Qk9MdxwjLvDHB8"
+  "CPMDWBwJDtYax9qW7AyRuVC19Cc4L4Vcy4n2BHAbHkCW"
 ); // Your program ID
 const RPC_ENDPOINT =
-  "https://api.devnet.solana.com"; // Or use 'https://api.devnet.solana.com' for devnet
+  "https://api.devnet.solana.com";
 
   const connection = new Connection(RPC_ENDPOINT, 'confirmed');
 const Page = () => {
