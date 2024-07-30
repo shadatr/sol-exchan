@@ -76,6 +76,7 @@ describe("sol-exchan", () => {
   });
 
   it("Sell Token", async () => {
+
     let userTokenAccount = findAssociatedTokenAddress(program.provider.publicKey, tokenMint);
     let tokenCustody =  findAssociatedTokenAddress(findBondingCurve(tokenMint), tokenMint);
     let bondingCurve = findBondingCurve(tokenMint);
@@ -89,6 +90,7 @@ describe("sol-exchan", () => {
         mint: tokenMint,
         tokenProgram: TOKEN_PROGRAM_ID,
     })
+    // .signers(tokenMint)
     .rpc();
     console.log("sell transaction:", tx);
   });

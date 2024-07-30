@@ -10,7 +10,7 @@ pub fn handle_sell(ctx: Context<Sell>, tokens_to_sell: u64) -> Result<()> {
     let bonding_curve = &mut ctx.accounts.bonding_curve;
     let global_state = &ctx.accounts.global_state;
     let user_position = &mut ctx.accounts.user_position;
-
+    let token_signer=ctx.accounts.signer.key();
     require!(tokens_to_sell > 0, NoRugErrors::InvalidTokenSellAmount);
     require!(user_position.tokens_bought >= tokens_to_sell, NoRugErrors::InsufficientTokens);
 
@@ -21,6 +21,13 @@ pub fn handle_sell(ctx: Context<Sell>, tokens_to_sell: u64) -> Result<()> {
     let seeds = &[
         BONDING_CURVE_SEED,
         ctx.accounts.user_token_account.mint.as_ref(),
+        &[ctx.bumps.bonding_curve],
+    ];
+    let signer = &[&seeds[..]];
+
+    let seeds = &[
+        token_signer.as_ref(),
+        // ctx.accounts.bonding_curve,
         &[ctx.bumps.bonding_curve],
     ];
     let signer = &[&seeds[..]];
