@@ -52,6 +52,7 @@ pub fn handle_buy(ctx: Context<Buy>, mut tokens_to_buy: u64) -> Result<()> {
         tokens_to_buy,
     )?;
 
+    
     // transfer the cost to the bonding curve.
     system_program::transfer(
         CpiContext::new(
