@@ -7,7 +7,7 @@ use consts::GLOBAL_STATE_SEED;
 use ixs::*;
 use state::GlobalState;
 
-declare_id!("6Ta25r5ThQPnDP9chE5H9aW1FTKnuYfpAEmqiRr5T37q");
+declare_id!("3zYbScQeVE1A2oA4b7v7UBQQytSqrcvScjFVxH8zwAPj");
 
 #[program]
 pub mod sol_exchan {

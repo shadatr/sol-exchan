@@ -1,17 +1,12 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::spl_token::instruction::AuthorityType;
 use anchor_spl::{
     associated_token::AssociatedToken,
     metadata::{
         create_metadata_accounts_v3, mpl_token_metadata::types::DataV2, CreateMetadataAccountsV3,
         Metadata,
     },
-    token::{mint_to, set_authority, Mint, MintTo, SetAuthority, Token, TokenAccount},
+    token::{Mint, Token},
 };
-
-
-use crate::consts::{BONDING_CURVE_SEED, TOKEN_DECIMALS, TOKEN_SUPPLY};
-use crate::state::BondingCurve;
 
 
 pub fn handle_create_token(
@@ -21,21 +16,6 @@ pub fn handle_create_token(
     uri: String,
 ) -> Result<()> {
     msg!("starting in there");
-
-    let bonding_curve = &mut ctx.accounts.bonding_curve;
-
-    // minting token's initial supply
-    mint_to(
-        CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
-            MintTo {
-                authority: ctx.accounts.creator.to_account_info(),
-                to: ctx.accounts.token_custody.to_account_info(),
-                mint: ctx.accounts.mint.to_account_info(),
-            },
-        ),
-        TOKEN_SUPPLY * (10u64).pow(TOKEN_DECIMALS),
-    )?;
 
     // attaching metadata to the coin
     create_metadata_accounts_v3(
@@ -61,25 +41,22 @@ pub fn handle_create_token(
             uses: None,
         },
         false,
-        false,
+        true,
         None,
     )?;
 
-    // setting the mint authority
-    set_authority(
-        CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
-            SetAuthority {
-                account_or_mint: ctx.accounts.mint.to_account_info(),
-                current_authority: ctx.accounts.creator.to_account_info(),
-            },
-        ),
-        AuthorityType::MintTokens,
-        None,
-    )?;
-
-    bonding_curve.token_reserves = 8_000_000_000 * (10u64).pow(TOKEN_DECIMALS);
-    bonding_curve.start = Clock::get()?.unix_timestamp as u64;
+    // // setting the mint authority
+    // set_authority(
+    //     CpiContext::new(
+    //         ctx.accounts.token_program.to_account_info(),
+    //         SetAuthority {
+    //             account_or_mint: ctx.accounts.mint.to_account_info(),
+    //             current_authority: ctx.accounts.creator.to_account_info(),
+    //         },
+    //     ),
+    //     AuthorityType::MintTokens,
+    //     None,
+    // )?;
 
     emit!(NewToken {
         name,
@@ -104,18 +81,6 @@ pub struct CreateToken<'info> {
     mint::authority = creator
     )]
     pub mint: Account<'info, Mint>,
-
-    // will keep track of the bonding curve's state, and also work as sol custody, no need for a separate account
-    #[account(init, payer = creator, space = std::mem::size_of::< BondingCurve > () + 8, seeds=[BONDING_CURVE_SEED, mint.key().as_ref()], bump)]
-    pub bonding_curve: Account<'info, BondingCurve>,
-
-    #[account(
-    init,
-    payer = creator,
-    associated_token::mint = mint,
-    associated_token::authority = bonding_curve
-    )]
-    pub token_custody: Account<'info, TokenAccount>,
     #[account(
     mut,
     seeds = [b"metadata", token_metadata_program.key().as_ref(), mint.key().as_ref()],

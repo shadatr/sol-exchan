@@ -5,14 +5,15 @@ import { Connection, PublicKey } from "@solana/web3.js";
 
 // Constants
 const PROGRAM_ID = new PublicKey(
-  "CPMDWBwJDtYax9qW7AyRuVC19Cc4L4Vcy4n2BHAbHkCW"
+  "3zYbScQeVE1A2oA4b7v7UBQQytSqrcvScjFVxH8zwAPj"
 ); // Your program ID
+
+const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
 const RPC_ENDPOINT =
   "https://api.devnet.solana.com";
 
   
-
-  const connection = new Connection(RPC_ENDPOINT, 'confirmed');
+const connection = new Connection(RPC_ENDPOINT, 'confirmed');
 const Page = () => {
   const [tokenAccounts, setTokenAccounts] = useState<any[]>([]);
 
@@ -20,16 +21,21 @@ const Page = () => {
     const getTokens = async () => {
       console.log("Getting token accounts...");
       try {
-        const accounts = await connection.getParsedProgramAccounts(PROGRAM_ID);
-        console.log(accounts);
-        const parsedAccounts = accounts.map(account => {
+        let response = await connection.getTokenAccountsByOwner(
+          new PublicKey("3zYbScQeVE1A2oA4b7v7UBQQytSqrcvScjFVxH8zwAPj"), // owner here
+          {
+            programId: TOKEN_PROGRAM_ID,
+          }
+        );
+        console.log("Response:", response);
+        const parsedAccounts = response.value.map(account => {
           const { pubkey, account: { data } } = account;
           if ('parsed' in data) {
             return {
               pubkey: pubkey.toBase58(),
-              mint: data.parsed.info.mint,
-              owner: data.parsed.info.owner,
-              tokenAmount: data.parsed.info.tokenAmount
+              // mint: data.parsed.info.mint,
+              // owner: data.parsed.info.owner,
+              // tokenAmount: data.parsed.info.tokenAmount
             };
           } else {
             return {
@@ -40,9 +46,7 @@ const Page = () => {
             };
           }
         });
-        
-        console.log("parseaccoun",parsedAccounts);
-        setTokenAccounts(accounts);
+        console.log("Token accounts:", parsedAccounts);
       } catch (error) {
         console.log("Error getting token accounts:", error);
       }
@@ -54,7 +58,7 @@ const Page = () => {
   return (
     <div>
       <SidebarPages />
-      <div>fdsehjfdhjhfdhjdfvjhfdvjhvdfjhfdvjx{tokenAccounts.length}</div>      
+      <div>{tokenAccounts.length}</div>      
     </div>
   );
 };
