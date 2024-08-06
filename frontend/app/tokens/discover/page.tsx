@@ -7,13 +7,11 @@ import { Connection, PublicKey } from "@solana/web3.js";
 const PROGRAM_ID = new PublicKey(
   "3zYbScQeVE1A2oA4b7v7UBQQytSqrcvScjFVxH8zwAPj"
 ); // Your program ID
-
-const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
 const RPC_ENDPOINT =
   "https://api.devnet.solana.com";
 
   
-const connection = new Connection(RPC_ENDPOINT, 'confirmed');
+  const connection = new Connection(RPC_ENDPOINT, 'confirmed');
 const Page = () => {
   const [tokenAccounts, setTokenAccounts] = useState<any[]>([]);
 
@@ -21,21 +19,25 @@ const Page = () => {
     const getTokens = async () => {
       console.log("Getting token accounts...");
       try {
-        let response = await connection.getTokenAccountsByOwner(
-          new PublicKey("3zYbScQeVE1A2oA4b7v7UBQQytSqrcvScjFVxH8zwAPj"), // owner here
-          {
-            programId: TOKEN_PROGRAM_ID,
-          }
-        );
-        console.log("Response:", response);
-        const parsedAccounts = response.value.map(account => {
+        const accounts = await connection.getParsedProgramAccounts(PROGRAM_ID);
+
+        // Filter accounts to find mint accounts
+        const mintAccounts = accounts.filter(account => {
+          // Token mint accounts have a specific data structure, including a certain data length and certain flags.
+          // You may need to parse the account data to determine if it's a mint account.
+          // Here we assume all accounts returned are token mints, which might not be accurate.
+          // You should implement the necessary checks based on your specific use case.
+          return account.account.data; // Placeholder condition, refine this logic as needed
+        });
+
+        const parsedAccounts = accounts.map(account => {
           const { pubkey, account: { data } } = account;
           if ('parsed' in data) {
             return {
               pubkey: pubkey.toBase58(),
-              // mint: data.parsed.info.mint,
-              // owner: data.parsed.info.owner,
-              // tokenAmount: data.parsed.info.tokenAmount
+              mint: data.parsed.info.mint,
+              owner: data.parsed.info.owner,
+              tokenAmount: data.parsed.info.tokenAmount
             };
           } else {
             return {
@@ -46,7 +48,8 @@ const Page = () => {
             };
           }
         });
-        console.log("Token accounts:", parsedAccounts);
+      
+        console.log('Found mint accounts:', parsedAccounts);
       } catch (error) {
         console.log("Error getting token accounts:", error);
       }
