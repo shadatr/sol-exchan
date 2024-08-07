@@ -8,6 +8,7 @@ import {
 import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
 import { Keypair } from "@solana/web3.js";
 const { PublicKey, SystemProgram } = anchor.web3;
+
 const metadataProgramId = new PublicKey(
   "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
 );
