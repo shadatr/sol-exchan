@@ -17,7 +17,6 @@ pub fn handle_create_token(
 ) -> Result<()> {
     msg!("starting in there");
 
-    // attaching metadata to the coin
     create_metadata_accounts_v3(
         CpiContext::new(
             ctx.accounts.token_metadata_program.to_account_info(),
@@ -45,18 +44,6 @@ pub fn handle_create_token(
         None,
     )?;
 
-    // // setting the mint authority
-    // set_authority(
-    //     CpiContext::new(
-    //         ctx.accounts.token_program.to_account_info(),
-    //         SetAuthority {
-    //             account_or_mint: ctx.accounts.mint.to_account_info(),
-    //             current_authority: ctx.accounts.creator.to_account_info(),
-    //         },
-    //     ),
-    //     AuthorityType::MintTokens,
-    //     None,
-    // )?;
 
     emit!(NewToken {
         name,

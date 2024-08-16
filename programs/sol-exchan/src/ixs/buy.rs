@@ -9,7 +9,6 @@ use anchor_spl::token::{mint_to,  Mint, MintTo, Token, TokenAccount};
 pub fn handle_buy(ctx: Context<Buy>, tokens_to_buy: u64) -> Result<()> {
     let global_state = &ctx.accounts.global_state;
     
-    // enforcing a minimum buy amount.
     if tokens_to_buy < 10u64 * 10u64.pow(TOKEN_DECIMALS) {
         return err!(NoRugErrors::InvalidTokenBuyAmount);
     }
@@ -31,8 +30,6 @@ pub fn handle_buy(ctx: Context<Buy>, tokens_to_buy: u64) -> Result<()> {
         tokens_to_buy,
     )?;
 
-    
-    // transfer the cost to the bonding curve.
     system_program::transfer(
         CpiContext::new(
             ctx.accounts.token_program.to_account_info(),

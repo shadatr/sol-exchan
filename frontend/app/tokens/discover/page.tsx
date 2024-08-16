@@ -7,8 +7,8 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 // Constants
 
 const PROGRAM_ID = new PublicKey(
-  "CPMDWBwJDtYax9qW7AyRuVC19Cc4L4Vcy4n2BHAbHkCW"
-); // Your program ID
+  "VnxDzsZ7chE88e9rB6UKztCt2HUwrkgCTx8WieWf5mM"
+);
 
 
 const RPC_ENDPOINT = "https://api.devnet.solana.com"; // RPC endpoint for the Solana network
