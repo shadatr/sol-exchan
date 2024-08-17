@@ -10,7 +10,6 @@ const PROGRAM_ID = new PublicKey(
   "VnxDzsZ7chE88e9rB6UKztCt2HUwrkgCTx8WieWf5mM"
 );
 
-
 const RPC_ENDPOINT = "https://api.devnet.solana.com"; // RPC endpoint for the Solana network
 const connection = new Connection(RPC_ENDPOINT, "confirmed");
 const Page = () => {
