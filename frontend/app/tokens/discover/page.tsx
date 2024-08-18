@@ -24,8 +24,6 @@ const Page = () => {
           { programId: TOKEN_PROGRAM_ID } 
         );
 
-        console.log("Token accounts:", tokenAccounts);
-
         const tokens = tokenAccounts.value.map((account) => {
           const tokenMint = account.account.data.parsed.info.mint;
           const tokenAmount =
