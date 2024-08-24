@@ -4,15 +4,14 @@ import React, { useEffect, useState } from "react";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
-
-// Constants
 const PROGRAM_ID = new PublicKey(
   "VnxDzsZ7chE88e9rB6UKztCt2HUwrkgCTx8WieWf5mM"
 );
 
-const RPC_ENDPOINT = "https://api.devnet.solana.com"; // RPC endpoint for the Solana network
+const RPC_ENDPOINT = "https://api.devnet.solana.com"; 
 const connection = new Connection(RPC_ENDPOINT, "confirmed");
 const Page = () => {
+  
   const [tokenAccounts, setTokenAccounts] = useState<any[]>([]);
 
   useEffect(() => {
